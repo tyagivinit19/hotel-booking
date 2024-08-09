@@ -16,8 +16,6 @@ export const register = async (formData: RegisterFormData) => {
         withCredentials: true,
       }
     );
-
-    console.log("Response from server", response);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log("Error message: ", error.message);
@@ -41,8 +39,6 @@ export const signIn = async (formData: SignInFormData) => {
     }
   );
 
-  console.log("res login", response);
-
   if (response.status !== 200) {
     throw new Error(response?.data.message);
   }
@@ -51,13 +47,19 @@ export const signIn = async (formData: SignInFormData) => {
 };
 
 export const validateToken = async () => {
-  const response = await axios.get(`${API_BASE_URL}/api/auth/validate-token`, {
-    withCredentials: true,
-  });
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/api/auth/validate-token`,
+      {
+        withCredentials: true,
+      }
+    );
 
-  if (response.status !== 200) {
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log("validateToken Erros:", error.response);
+    }
     throw new Error("Token Invalid");
   }
-
-  return response.data;
 };

@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAppContext } from "../contexts/AppContext";
-import { useEffect } from "react";
+import { useAppContext } from "../hooks/useAppContext";
 
 const Header = () => {
   const { isLoggedIn } = useAppContext();
-  console.log("header");
-
-  useEffect(() => {
-    console.log("Header mounted or isLoggedIn changed");
-  }, [isLoggedIn]);
 
   return (
     <div className="bg-blue-800 py-6">

@@ -1,20 +1,10 @@
-import React, { useContext, useState } from "react";
-import Toast from "../components/Toast";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 
+import Toast from "../components/Toast";
+
 import * as apiClient from "../api-client";
-
-type ToastMessage = {
-  message: string;
-  type: "SUCCESS" | "ERROR";
-};
-
-type AppContext = {
-  showToast: (toastMessage: ToastMessage) => void;
-  isLoggedIn: boolean;
-};
-
-const AppContext = React.createContext<AppContext | undefined>(undefined);
+import { AppContext, ToastMessage } from "./AppContext";
 
 export const AppContextProvider = ({
   children,
@@ -23,7 +13,7 @@ export const AppContextProvider = ({
 }) => {
   const [toast, setToast] = useState<ToastMessage | undefined>(undefined);
 
-  const { isError } = useQuery("/validateToken", apiClient.validateToken, {
+  const { isError } = useQuery("validateToken", apiClient.validateToken, {
     retry: false,
   });
 
@@ -48,7 +38,7 @@ export const AppContextProvider = ({
   );
 };
 
-export const useAppContext = () => {
-  const context = useContext(AppContext);
-  return context as AppContext;
-};
+// export const useAppContext = () => {
+//     const context = useContext(AppContext);
+//     return context as AppContext;
+//   };
